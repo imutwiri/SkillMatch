@@ -1,0 +1,23 @@
+.gradient-bg {
+    background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+}
+        
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+        
+.availability-day.active {
+    background-color: #4F46E5;
+    color: white;
+}
+        
+#chat-container {
+    height: calc(100vh - 200px);
+}
+        
+@media (max-width: 768px) {
+    #chat-container {
+        height: calc(100vh - 150px);
+    }
+}
