@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*.js": { "runtime": "nodejs20.x" }
+    "api/**/*.js": { "runtime": "@vercel/node@2" }
   },
   "routes": [
     { "src": "/api/auth/(.*)", "dest": "/api/auth.js" },
@@ -9,4 +9,3 @@
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
-
