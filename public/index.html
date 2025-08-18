@@ -784,6 +784,32 @@
             }
         });
 
+        //Auto-Login on page Load
+        window.addEventListener('DOMContentLoaded', async () => {
+          const token = localStorage.getItem('access_token');
+          if (!token) return;
+
+          try {
+             const res = await fetch('/api/auth/user', {
+                 method: 'GET',
+                 headers: { 'Authorization': `Bearer ${token}` }
+                });
+             const data = await res.json();
+             if (res.ok && data.user) {
+                 const fn = data.user?.user_metadata?.firstName || '';
+                 const ln = data.user?.user_metadata?.lastName || '';
+                 document.querySelector('#user-menu span').textContent =
+                   `${fn} ${ln}`.trim() || data.user.email;
+
+                 document.getElementById('auth-btn').classList.add('hidden');
+                 document.getElementById('user-menu').classList.remove('hidden');
+                }
+            } catch (err) {
+              console.error('Auto-login failed:', err);
+            }
+        });
+
+
 
         // Auto-scroll chat to bottom
         const chatContainer = document.getElementById('chat-container');
