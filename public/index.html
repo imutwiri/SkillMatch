@@ -747,42 +747,34 @@
         });
 
         // Actual registration with backend API
-        document.getElementById('register-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = document.getElementById('register-email').value;
+          const password = document.getElementById('register-password').value;
+          const firstName = document.getElementById('register-firstname').value;
+          const lastName = document.getElementById('register-lastname').value;
 
-            const inputs = e.target.querySelectorAll('input');
-            const firstName = inputs[0].value;
-            const lastName = inputs[1].value;
-            const email = inputs[2].value;
-            const password = inputs[3].value;
-            const confirmPassword = inputs[4].value;
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password, firstName, lastName })
+          try {
+              const res = await fetch('/api/auth/register', {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ email, password, firstName, lastName })
                 });
 
                 const data = await res.json();
-
                 if (res.ok) {
-                    alert('Account created successfully! You can now log in.');
-                    // Switch to login tab automatically
-                    document.getElementById('login-tab').click();
+                  alert("Registration successful! Please log in.");
+                  console.log("User:", data.user);
+                  document.getElementById('auth-modal').classList.add('hidden');
                 } else {
-                    alert(data.error || 'Registration failed.');
+                  alert("Registration failed: " + (data.error || "Unknown error"));
                 }
             } catch (err) {
-                console.error('Registration error:', err);
-                alert('An error occurred while registering.');
+              console.error("Register request failed:", err);
+              alert("Network error during registration");
             }
         });
+
 
         //Auto-Login on page Load
         window.addEventListener('DOMContentLoaded', async () => {
